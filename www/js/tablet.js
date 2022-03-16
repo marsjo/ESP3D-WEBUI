@@ -43,17 +43,41 @@ MDI = function(field) {
     MDIcmd(id(field).value);
 }
 
+enterFullscreen = function() {
+    try {
+        document.documentElement.requestFullscreen();
+    } catch (exception) {
+        try {
+            document.documentElement.webkitRequestFullscreen();
+        } catch (exception) {
+            return;
+        }
+    }
+    messages.rows = 4;
+    messages.scrollTop = messages.scrollHeight;
+}
+exitFullscreen = function() {
+    try {
+        document.exitFullscreen();
+    } catch (exception) {
+        try {
+            document.webkitExitFullscreen();
+        } catch (exception) {
+            return;
+        }
+    }
+    messages.rows = 2;
+    messages.scrollTop = messages.scrollHeight;
+}
+
 toggleFullscreen = function() {
     var messages = id('messages');
 
     if (document.fullscreenElement) {
-        document.exitFullscreen();
-        messages.rows = 2;
+        exitFullscreen();
     } else {
-        document.documentElement.requestFullscreen();
-        messages.rows = 4;
+        enterFullScreen;
     }
-    messages.scrollTop = messages.scrollHeight;
 }
 
 inputFocused = function() {
