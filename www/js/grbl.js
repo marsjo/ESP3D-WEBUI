@@ -642,3 +642,14 @@ function StartProbeProcess() {
     grbl_error_msg = '';
     setHTML('grbl_status_text', grbl_error_msg);
 }
+
+var spindleSpeedSetTimeout;
+var spindleTabSpindleSpeed = 1;
+
+function setSpindleSpeed(speed){
+    if(spindleSpeedSetTimeout) clearTimeout(spindleSpeedSetTimeout)
+    if(speed >= 1) {
+        spindleTabSpindleSpeed = speed
+        spindleSpeedSetTimeout = setTimeout(() => SendPrinterCommand('S' + spindleTabSpindleSpeed, false, null, null, 1, 1), 500)
+    }
+}
