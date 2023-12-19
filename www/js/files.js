@@ -431,7 +431,7 @@ function files_list_success(response_text) {
                 sdname: file_name,
                 size: fsize,
                 isdir: isdirectory,
-                datetime: response.files[i].datetime,
+                datetime: response.files[i].datetime || "",
                 isprintable: isprint
             };
             files_file_list.push(file_entry);
