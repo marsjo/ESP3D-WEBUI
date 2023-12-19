@@ -478,7 +478,7 @@
           MDI
         </button>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <select class="form-control" id="filelist" onchange="selectFile()">
 	  <option>Load GCode File</option>
         </select>
@@ -501,6 +501,16 @@
           onclick="selectFile()"
           >
           Load
+        </button>
+      </div>
+      <div class="col-1">
+        <button
+          type="button"
+          class="btn btn-default refresh"
+          title="Refresh Files"
+          onclick="files_refreshFiles(files_currentPath)"
+          >
+          Refr
         </button>
       </div>
     </div>

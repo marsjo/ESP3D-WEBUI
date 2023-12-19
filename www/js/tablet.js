@@ -611,13 +611,21 @@ function expandVisualizer() {
 
 var gCodeFilename = '';
 
+function clearTabletFileSelector(message) {
+    var selector = id('filelist');
+    selector.length = 0;
+    selector.selectedIndex = 0;
+    if (message) {
+        addOption(selector, message, -3, true, true);
+    }
+}
+
 function populateTabletFileSelector(files, path) {
     var selector = id('filelist');
 
     var selectedFile = gCodeFilename.split('/').slice(-1)[0];
 
-    selector.length = 0;
-    selector.selectedIndex = 0;
+    clearTabletFileSelector();
 
     if (!files.length) {
         addOption(selector, "No files found", -3, true, selectedFile == '');

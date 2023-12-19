@@ -358,7 +358,7 @@ function files_refreshFiles(path, usecache) {
     id('files_currentPath').innerHTML = files_currentPath;
     files_file_list = [];
     files_status_list = [];
-    files_build_display_filelist(false);
+    clearTabletFileSelector("Refreshing file list");
     displayBlock('files_list_loader');
     displayBlock('files_nav_loader');
     //this is pure direct SD
