@@ -613,6 +613,10 @@ function grblHandleMessage(msg) {
         collecting = true;
         return;
     }
+    if (msg.startsWith('[MSG: Files changed]')) {
+        files_refreshFiles(files_currentPath);
+        return;
+    }
 
     // Setting collection
     if (collectedSettings) {
