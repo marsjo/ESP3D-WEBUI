@@ -255,8 +255,7 @@ function onstatusIntervalChange() {
 //TODO handle authentication issues
 //errorfn cannot be NULL
 function get_status() {
-    //ID 114 is same as M114 as '?' cannot be an ID
-    SendPrinterCommand("?", false, null, null, 114, 1);
+    SendRealtimeCmd(0x3f); // '?'
 }
 
 function parseGrblStatus(response) {
@@ -455,7 +454,7 @@ function pauseGCode() {
 }
 
 function resumeGCode() {
-    SendRealtimeCmd(0x7e);
+    SendRealtimeCmd(0x7e); // '~'
 }
 
 function stopGCode() {

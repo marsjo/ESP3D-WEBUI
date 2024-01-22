@@ -89,7 +89,6 @@ window.onload = function() {
         id('command-body').className = "panel-body";
         id('file-body').className = "panel-body panel-height panel-max-height panel-scroll";
     }
-    tabletInit();
 };
 
 var wsmsg = "";
@@ -441,6 +440,7 @@ function initUI_4() {
 
 function show_main_UI() {
     displayUndoNone('main_ui');
+    tabletInit();
 }
 
 function compareStrings(a, b) {
