@@ -274,6 +274,47 @@ sendMove = function(cmd) {
 
     fn && fn();
 };
+function getItemValue(msg, name) {
+    if (msg.startsWith(name)) {
+        return msg.substring(name.length, msg.length);
+    }
+    return '';
+}
+function getAxisValueSuccess(msg) {
+    let value = '';
+    if (value = getItemValue(msg, '$/axes/x/max_travel_mm=')) {
+        displayer.setXTravel(parseFloat(value));
+        return;
+    }
+    if (value = getItemValue(msg, '$/axes/y/max_travel_mm=')) {
+        displayer.setYTravel(parseFloat(value));
+        return;
+    }
+
+    if (value = getItemValue(msg, '$/axes/x/homing/mpos_mm=')) {
+        displayer.setXHome(parseFloat(value));
+        return;
+    }
+    if (value = getItemValue(msg, '$/axes/y/homing/mpos_mm=')) {
+        displayer.setYHome(parseFloat(value));
+        return;
+    }
+
+    if (value = getItemValue(msg, '$/axes/x/homing/positive_direction=')) {
+        displayer.setXDir(value);
+        return;
+    }
+    if (value = getItemValue(msg, '$/axes/y/homing/positive_direction=')) {
+        displayer.setYDir(value);
+        return;
+    }
+
+}
+
+function getAxisValueFailure() {
+    console.log("Failed to get axis data");
+}
+
 function tabletShowMessage(msg, collecting) {
     if (collecting || msg ==  '' || msg.startsWith('<') || msg.startsWith('ok') || msg.startsWith('\n') || msg.startsWith('\r')) {
         return;
@@ -282,30 +323,10 @@ function tabletShowMessage(msg, collecting) {
         msg = '<span style="color:red;">' + msg + '</span>';
     }
     var messages = id('messages');
-//    messages.value += "\n" + msg;
     messages.innerHTML += "<br>" + msg;
     messages.scrollTop = messages.scrollHeight;
 
-    if(msg.startsWith('$/axes/x/max_travel_mm=')){
-        displayer.setXTravel(parseFloat(msg.substring(23,msg.length)));
-    }
-    if(msg.startsWith('$/axes/y/max_travel_mm=')){
-        displayer.setYTravel(parseFloat(msg.substring(23,msg.length)));
-    }
-
-    if(msg.startsWith('$/axes/x/homing/mpos_mm=')){
-        displayer.setXHome(parseFloat(msg.substring(24,msg.length)));
-    }
-    if(msg.startsWith('$/axes/y/homing/mpos_mm=')){
-        displayer.setYHome(parseFloat(msg.substring(24,msg.length)));
-    }
-
-    if(msg.startsWith('$/axes/x/homing/positive_direction=')){
-        displayer.setXDir(msg.substring(35,msg.length));
-    }
-    if(msg.startsWith('$/axes/y/homing/positive_direction=')){
-        displayer.setYDir(msg.substring(35,msg.length));
-    }
+    getAxisValueSuccess(msg);
 }
 
 function tabletShowResponse(response) {
@@ -704,18 +725,23 @@ function showGCode(gcode) {
 
 var machineBboxAsked = false;
 
+function getAxisValue(name) {
+    var url = "/command?plain=" + encodeURIComponent(name);
+    SendGetHttp(url, getAxisValueSuccess, getAxisValueFailure);
+}
+
 function askMachineBbox() {
     if (machineBboxAsked) {
         return;
     }
     machineBboxAsked = true;
-    SendPrinterCommand("$/axes/x/max_travel_mm");
-    SendPrinterCommand("$/axes/x/homing/mpos_mm");
-    SendPrinterCommand("$/axes/x/homing/positive_direction");
+    getAxisValue("$/axes/x/max_travel_mm");
+    getAxisValue("$/axes/x/homing/mpos_mm");
+    getAxisValue("$/axes/x/homing/positive_direction");
 
-    SendPrinterCommand("$/axes/y/max_travel_mm");
-    SendPrinterCommand("$/axes/y/homing/mpos_mm");
-    SendPrinterCommand("$/axes/y/homing/positive_direction");
+    getAxisValue("$/axes/y/max_travel_mm");
+    getAxisValue("$/axes/y/homing/mpos_mm");
+    getAxisValue("$/axes/y/homing/positive_direction");
 }
 
 function nthLineEnd(str, n){
