@@ -567,7 +567,8 @@ function files_check_if_upload() {
     var canupload = true;
     var files = id("files_input_file").files;
     if (direct_sd) {
-        SendPrinterCommand("[ESP200]", false, process_check_sd_presence);
+        var url = "/command?plain=" + encodeURIComponent("[ESP400]");
+        SendGetHttp(url, process_check_sd_presence);
     } else {
         //no reliable way to know SD is present or not so let's upload
         files_start_upload();
