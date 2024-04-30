@@ -175,6 +175,13 @@ joggers.addEventListener('pointerdown', function(event) {
         timeout_id = setTimeout(long_jog, hold_time, target);
     }
 });
+joggers.addEventListener('click', function(event) {
+    clearTimeout(timeout_id);
+    var target = event.target;
+    if (target.classList.contains('jog')) {
+        sendMove(target.value);
+    }
+});
 joggers.addEventListener('pointerup', function(event) {
     clearTimeout(timeout_id);
     var target = event.target;
@@ -854,8 +861,7 @@ cycleDistance = function(up) {
 clickon = function(name) {
     //    $('[data-route="workspace"] .btn').removeClass('active');
     var button = id(name);
-    button.classList.add('active');
-    button.dispatchEvent(new Event('click'));
+    button.click();
 }
 var ctrlDown = false;
 var oldIndex = null;;
