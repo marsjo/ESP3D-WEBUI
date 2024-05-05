@@ -460,7 +460,7 @@ function check_startup_message() {
             return;
         }
 
-        errorOrWarning = true;
+        errorOrWarning = false;
         for (i = 0; i < endPos; i++) {
             if (Monitor_output[i].startsWith("[MSG:ERR") || Monitor_output[i].startsWith("[MSG:WARN")) {
                 errorOrWarning = true;
